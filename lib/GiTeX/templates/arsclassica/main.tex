@@ -1,16 +1,26 @@
-\documentclass{## CLASS ##}
-\usepackage[utf8]{inputenc}
-\usepackage{cite}
+\documentclass[10pt, a4paper, oneside, headinclude, footinclude, BCOR5mm]{scrartcl}
+\input{arsclassica.tex}
 
-\title{## TITLE ##}
-\author{## AUTHOR ##}
+\hyphenation{Fortran hy-phen-ation}
+
+\title{\normalfont\spacedallcaps{## TITLE ##}}
+\author{\spacedlowsmallcaps{## AUTHOR ##}}
 \date{## DATE ##}
+
 
 \begin{document}
 
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} 
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} 
+
+\pagestyle{scrheadings} 
+
 \input{cover}
-\input{abstract}
+
+\setcounter{tocdepth}{2}
+
 \input{toc_lof_lot}
+\input{abstract}
 \input{sections}
 \input{bibliography}
 

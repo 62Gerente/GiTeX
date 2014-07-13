@@ -41,10 +41,10 @@ module GiTeX
 
       content = File.read(main)
 
-      content = content.gsub(/## CLASS ##/, @class)
-      content = content.gsub(/## TITLE ##/, @title)
-      content = content.gsub(/## AUTHOR ##/, @author)
-      content = content.gsub(/## DATE ##/, @date)
+      content = content.gsub(/## CLASS ##/, @class)   || content
+      content = content.gsub(/## TITLE ##/, @title)   || content
+      content = content.gsub(/## AUTHOR ##/, @author) || content
+      content = content.gsub(/## DATE ##/, @date)     || content
 
       File.open("#{@repo_dir}/main.tex", "w") {|file| file.puts content}
     end

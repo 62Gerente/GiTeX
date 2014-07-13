@@ -25,11 +25,31 @@ module GiTeX
     method_option :folder,
                   type:    :string,
                   aliases: '-f',
-                  banner:  'Specify the project folder name'    
+                  banner:  'Specify the project folder name'   
+    method_option :authors,
+                  type:    :string,
+                  aliases: '-a',
+                  banner:  'Specify the project authors'   
+    method_option :date,
+                  type:    :string,
+                  aliases: '-d',
+                  banner:  'Specify the project date'    
 
-    def init document_title
+    def init title
       require 'gitex/cli/init'
-      Init.new(options, document_title).run
+      Init.new(options, title).run
     end
+
+    desc 'generate FORMAT [OPTIONS]', 'Generate a document of specified format from LaTeX source'
+
+    def generate format
+      require 'gitex/cli/generate'
+      Generate.new(options, format).run
+    end
+
+    desc "update PART [OPTIONS]", "Update document part"
+
+    require 'gitex/cli/update'
+    subcommand "update", UpdateCommand
   end
 end
