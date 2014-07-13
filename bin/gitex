@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'gitex'
+require 'gitex/cli'
+
+GiTeX::CLI.start
