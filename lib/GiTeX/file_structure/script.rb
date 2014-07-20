@@ -19,7 +19,7 @@ def getTitle file
 end
 
 def addFileToStructure folder, main
-  Dir.chdir("./"+folder)
+  Dir.chdir(folder)
   a = Dir.glob("*.tex")
   a.each do |e|
     doc_section =  Hash.new
