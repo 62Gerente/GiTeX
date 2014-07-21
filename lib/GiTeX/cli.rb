@@ -47,7 +47,7 @@ module GiTeX
       Generate.new(options, format).run
     end
 
-    desc "update PART [OPTIONS]", "Update document part"
+    desc "update PART [OPTIONS]", "Update a document part"
 
     require 'gitex/cli/update'
     subcommand "update", UpdateCommand
