@@ -36,7 +36,7 @@ module GiTeX
     end
 
     def add_template
-      FileUtils.cp_r("#{Directory.templates}/#{@template}/*", @repo_dir)
+      FileUtils.cp_r(Dir["#{Directory.templates}/#{@template}/*"], @repo_dir)
       main = "#{@repo_dir}/main.tex"
 
       content = File.read(main)

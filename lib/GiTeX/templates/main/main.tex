@@ -1,6 +1,7 @@
 \documentclass{## CLASS ##}
 \usepackage[utf8]{inputenc}
 \usepackage{cite}
+\usepackage{bashful}
 
 \title{## TITLE ##}
 \author{## AUTHOR ##}
@@ -11,6 +12,12 @@
 \input{cover}
 \input{toc_lof_lot}
 \input{abstract}
+
+\bash[stdoutFile=sections.tex]
+{ shopt -s nullglob; for file in sections/*.tex; do echo "\\input{$file}"; done; } 
+\END
+\input{sections}
+
 \input{sections}
 \input{bibliography}
 

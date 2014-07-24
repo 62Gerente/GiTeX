@@ -29,10 +29,10 @@ module GiTeX
 
     def run_pdflatex
       system "cd #{@repo_dir}"
-      system "pdflatex #{@repo_dir}/main"
+      system "pdflatex -shell-escape #{@repo_dir}/main"
       system "bibtex #{@repo_dir}/main"
-      system "pdflatex #{@repo_dir}/main"
-      system "pdflatex #{@repo_dir}/main"
+      system "pdflatex -shell-escape #{@repo_dir}/main"
+      system "pdflatex -shell-escape #{@repo_dir}/main"
       clean_pdflatex_aux_files
       system "cd #{@working_dir}"
     end

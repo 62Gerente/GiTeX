@@ -25,8 +25,6 @@ module GiTeX
       write_document_structure_to_temp_file
       open_structure_with_default_text_editor
       update_report_structure
-
-      puts @structure.to_yaml
     end
 
     private
@@ -37,7 +35,9 @@ module GiTeX
       
       current_identation = ""
       current_path = "#{@repo_dir}/sections"
+      partial_path = "sections"
       current_identifier = ""
+      default_identation = 0
 
       levels = [1, 1 ,1]
       current_level = 0
@@ -51,21 +51,25 @@ module GiTeX
 
         filename = Sanitize.filename(title)
 
+        default_identation = indentation.length - current_identation.length if default_identation <= 0
+
         if indentation.length > current_identation.length
           current_path << "/#{current_identifier}"
+          partial_path << "/#{current_identifier}"
           FileUtils::mkdir_p current_path
           current_level += 1
         elsif indentation.length < current_identation.length
-          current_path << "/.."
+          current_path << "/.."*((current_identation.length - indentation.length)/default_identation)
+          partial_path << "/.."*((current_identation.length - indentation.length)/default_identation)
           current_level -= 1
         end
 
         identifier = "#{'%03d' % (levels[current_level]*10)}_#{section_id}_#{filename}" 
         new_section_path = "#{current_path}/#{identifier}.tex"
+        new_partial_path = "#{partial_path}/#{identifier}"
 
         if(@sections.key? section_id)
           section = @sections[section_id]
-          
           system("mv \"#{section[:path]}\" \"#{new_section_path}\"")
         else
           FileUtils.touch(new_section_path)
@@ -73,11 +77,17 @@ module GiTeX
 
         content = File.read(new_section_path)
 
-        content = if content =~ /section\{.*\}/
-          content.gsub(/^.*\\(sub)*section\{.*\}.*(\n\s*\\label\{.*\}.*)?/, "\\#{section_tag current_level}{#{title}}\n\\label{sec:#{filename}}")
+        if content =~ /^.*\\(sub)*section\{.*\}.*(\n\\label.*)?/
+          content = content.gsub(/^.*\\(sub)*section\{.*\}.*(\n\\label.*)?/, "\\#{section_tag current_level}{#{title}}\n\\label{sec:#{filename}}\n")
         else
-          "\\#{section_tag current_level}{#{title}}\n\\label{sec:#{filename}}\n" + content
+          content = "\\#{section_tag current_level}{#{title}}\n\\label{sec:#{filename}}\n" + content
         end
+
+        if content =~ /^.*\\bash(.|\n)*\\END\s*\\input\{.*\}/
+          content = content.gsub(/^.*\\bash(.|\n)*\\END\s*\\input\{.*\}/, '\bash[stdoutFile=' + new_partial_path + '_sections]' + "\n" + '{ shopt -s nullglob; for file in ' + new_partial_path + '/*.tex; do echo "\\input{$file}"; done; } ' + "\n" + '\END' + "\n" + '\input{' + new_partial_path + '_sections}')
+        else
+          content = content + "\n\n\n\n\n\n\n\n" + '\bash[stdoutFile=' + new_partial_path + '_sections]' + "\n" + '{ shopt -s nullglob; for file in ' + new_partial_path + '/*.tex; do echo "\\input{$file}"; done; } ' + "\n" + '\END' + "\n" + '\input{' + new_partial_path + '_sections}'
+        end     
 
         File.open(new_section_path, "w") {|file| file.puts content}
 
