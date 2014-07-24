@@ -100,7 +100,7 @@ def extractText file
   File.open(file, :encoding => "UTF-8").readlines.each do |line|
     if /^\\.*/.match(line).to_s == ""
       text += line.split(' ')
-    elsif /^\\begin|end.*/.match(line).to_s == ""
+    elsif /^\\begin|end|bash|input|label|END.*/.match(line).to_s == ""
       text += /\{(.*?)\}/.match(line).to_s[1...-1].split(' ')
     end
   end
