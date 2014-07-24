@@ -75,7 +75,7 @@ def correctoUnknownWord word, file
     print "\nReplacement word: "  
     replace = STDIN.gets.chomp.encode("iso-8859-1").force_encoding("utf-8").to_s
     text = File.read(file)
-    text = text.gsub(/ #{word} /, " #{replace.encode("iso-8859-1").force_encoding("utf-8")} ") # Acentos escaxam
+    text = text.gsub(/#{word}/, "#{replace.encode("iso-8859-1").force_encoding("utf-8")}") # Acentos escaxam, usar palavras complexas senão pode substituir palavras a meio
     File.open(file,"w") {|file| file.puts text}
   elsif option == 9
     system "vim #{file}"
