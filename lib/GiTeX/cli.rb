@@ -1,4 +1,5 @@
 require 'thor'
+require 'git'
 require 'gitex'
 
 module GiTeX
@@ -45,6 +46,23 @@ module GiTeX
     def generate format
       require 'gitex/cli/generate'
       Generate.new(options, format).run
+    end
+
+    desc 'print structure [OPTIONS]', 'Generate a document of specified format from LaTeX source'
+
+    def print structure
+      git_dir = `git rev-parse --git-dir`
+      @repository = Git.open("#{git_dir}/..")
+      @repo_dir = @repository.dir.to_s
+      puts "Document structure"
+      puts "------------------"
+      puts "Cover"
+      puts "Abstract"
+      puts "Table of Contents"
+      File.open(@repo_dir+"/.structure.tmp", :encoding => "UTF-8").readlines.each do |line|
+        puts line
+      end
+      puts "Bibliography"
     end
 
     desc 'spellcheck PART [OPTIONS]', 'Spell check the document or a section'

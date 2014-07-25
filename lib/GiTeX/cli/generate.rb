@@ -47,7 +47,7 @@ module GiTeX
     end
 
     def clean_pdflatex_aux_files
-      system "rm *.lof *.lot *.out *.toc *.aux *.log *.bbl *.bgl"
+      system "rm *.lof *.lot *.out *.toc *.aux *.log *.bbl *.bgl *.stderr *.sh"
     end
 
     def clean_htlatex_aux_files
