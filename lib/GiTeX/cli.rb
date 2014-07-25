@@ -14,27 +14,27 @@ module GiTeX
     method_option :class,
                   type:    :string,
                   aliases: '-c',
-                  banner:  'Specify the document class'   
+                  banner:  'Specify the document class'
     method_option :template,
                   type:    :string,
                   aliases: '-t',
-                  banner:  'Specify the document template'      
+                  banner:  'Specify the document template'
     method_option :cover,
                   type:    :string,
                   aliases: '-t',
-                  banner:  'Specify the document template'  
+                  banner:  'Specify the document template'
     method_option :folder,
                   type:    :string,
                   aliases: '-f',
-                  banner:  'Specify the project folder name'   
+                  banner:  'Specify the project folder name'
     method_option :authors,
                   type:    :string,
                   aliases: '-a',
-                  banner:  'Specify the project authors'   
+                  banner:  'Specify the project authors'
     method_option :date,
                   type:    :string,
                   aliases: '-d',
-                  banner:  'Specify the project date'    
+                  banner:  'Specify the project date'
 
     def init title
       require 'gitex/cli/init'
@@ -69,10 +69,16 @@ module GiTeX
 
     require 'gitex/cli/spellcheck'
     subcommand "spellcheck", SpellCheckCommand
+    desc "include TYPE [OPTIONS]", "Include new elements in document"
+
+
+    require 'gitex/cli/include'
+    subcommand "include", IncludeCommand
 
     desc "update PART [OPTIONS]", "Update a document part"
 
     require 'gitex/cli/update'
     subcommand "update", UpdateCommand
+
   end
 end
