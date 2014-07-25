@@ -25,8 +25,8 @@ module GiTeX
     desc 'screenshots', 'Generate latex image code from screenshots of url'
 
     def screenshots(*paramaters)
-      require 'gitex/cli/include/screenshot'
-      IncludeCommand::Screenshot.new(options,paramaters).run
+      require 'gitex/cli/include/screenshots'
+      IncludeCommand::Screenshots.new(options,paramaters).run
     end
 
   end

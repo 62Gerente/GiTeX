@@ -1,15 +1,14 @@
 require 'git'
 require 'gitex/helpers/directory'
-require 'uri'
-require 'open-uri'
-require 'fileutils'
-require 'pathname'
+require 'selenium-webdriver'
+require 'addressable/uri'
+
 
 
 include GiTeX::Helpers
 
 module GiTeX
-  class IncludeCommand::Screenshot
+  class IncludeCommand::Screenshots
     def initialize(options,paramaters)
       @options = options
       @paramaters = paramaters
@@ -23,7 +22,6 @@ module GiTeX
 
     def generate_image
       take_screenshot
-
     end
     def take_screenshot
       FileUtils::mkdir_p 'images/screenshots'
@@ -32,7 +30,6 @@ module GiTeX
         driver.navigate.to url
         host = Addressable::URI.parse(url).host
         driver.save_screenshot("images/screenshots/#{host}.jpg")
-
       end
       driver.quit
     end
