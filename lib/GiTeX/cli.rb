@@ -47,6 +47,11 @@ module GiTeX
       Generate.new(options, format).run
     end
 
+    desc 'spellcheck PART [OPTIONS]', 'Spell check the document or a section'
+
+    require 'gitex/cli/spellcheck'
+    subcommand "spellcheck", SpellCheckCommand
+
     desc "update PART [OPTIONS]", "Update a document part"
 
     require 'gitex/cli/update'
