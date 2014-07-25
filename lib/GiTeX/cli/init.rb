@@ -37,6 +37,7 @@ module GiTeX
 
     def add_template
       FileUtils.cp_r(Dir["#{Directory.templates}/#{@template}/*"], @repo_dir)
+      FileUtils.mkdir_p("#{@repo_dir}/sections") unless File.exists?("#{@repo_dir}/sections")
       main = "#{@repo_dir}/main.tex"
 
       content = File.read(main)
